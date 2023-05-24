@@ -1,0 +1,5 @@
+- [ ] Implementar entrada de dados por meio de arquivos
+- [ ] Criar matriz de interface com o usuario 
+- [ ] Criar loop com opções de ações para o usuario
+- [ ] Criar métodos adicionais de controle do jogo, como proxima rodada e fim de jogo
+- [ ] Criar documentação
