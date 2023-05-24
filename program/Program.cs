@@ -2,59 +2,62 @@
 
 internal class Program
 {
+
+    public static int [,] respostasMatiz;
+    public static int[,] usuarioMatriz;
+    public static int numBombas;
+
     private static void Main(string[] args)
     {
-        // dados que virão do arquivo:
-        int numBombas = 30;
-        int linha = 10, coluna = 20;
-
-        // matriz de descobertas do usuario
-        int [,] matUsuario = new int[linha,coluna];
-
-        // matriz gabarito
-        int[,] matResposta = new int[linha,coluna];
-
-        iniciaMatrizNula(matResposta);
-        geraBombas(matResposta, numBombas);
-        calculaBombasAdjacentes(matResposta);
-
-
-        imprimeMatriz(matResposta);
+        IniciaJogo();
     }
 
-    public static void iniciaMatrizNula(int[,] matResposta)
+    public static void IniciaJogo()
     {
-        for(int i = 0; i<matResposta.GetLength(0); i++)
+        numBombas = 30;
+        int linha = 10, coluna = 20;
+
+        usuarioMatriz = new int[linha, coluna];
+        respostasMatiz = new int[linha, coluna];
+        iniciaMatrizNula();
+        geraBombas();
+        calculaBombasAdjacentes();
+        imprimeMatriz(respostasMatiz);
+    }
+
+    public static void iniciaMatrizNula()
+    {
+        for(int i = 0; i<respostasMatiz.GetLength(0); i++)
         {
-            for (int j = 0; j<matResposta.GetLength(1); j++)
+            for (int j = 0; j<respostasMatiz.GetLength(1); j++)
             {
-                matResposta[i, j] = 0;
+                respostasMatiz[i, j] = 0;
             }
         }
     }
 
-    public static void geraBombas(int[,] matResposta, int numBombas)
+    public static void geraBombas()
     {
         Random rnd = new Random();
         int bombasAlocadas = 0;
 
         while (bombasAlocadas < numBombas)
         {
-            int x = rnd.Next(0, matResposta.GetLength(0));
-            int y = rnd.Next(0, matResposta.GetLength(1));
+            int x = rnd.Next(0, respostasMatiz.GetLength(0));
+            int y = rnd.Next(0, respostasMatiz.GetLength(1));
 
-            if (matResposta[x, y] == 0)
+            if (respostasMatiz[x, y] == 0)
             {
-                matResposta[x, y] = 10;
+                respostasMatiz[x, y] = 10;
                 bombasAlocadas++;
             }
         }
     }
 
-    public static void calculaBombasAdjacentes(int[,] matriz)
+    public static void calculaBombasAdjacentes()
     {
-        int linhas = matriz.GetLength(0);
-        int colunas = matriz.GetLength(1);
+        int linhas = respostasMatiz.GetLength(0);
+        int colunas = respostasMatiz.GetLength(1);
 
         // Varre todos os elementos da matriz
         for (int x = 0; x < linhas; x++)
@@ -62,7 +65,7 @@ internal class Program
             for (int y = 0; y < colunas; y++)
             {
                 // Ignora células que já contenham bombas
-                if (matriz[x, y] == 10)
+                if (respostasMatiz[x, y] == 10)
                 {
                     continue;
                 }
@@ -87,7 +90,7 @@ internal class Program
                         if (vizinhoX >= 0 && vizinhoX < linhas && vizinhoY >= 0 && vizinhoY < colunas)
                         {
                             // Verifica se o vizinho é uma bomba
-                            if (matriz[vizinhoX, vizinhoY] == 10)
+                            if (respostasMatiz[vizinhoX, vizinhoY] == 10)
                             {
                                 bombasAdjacentes++;
                             }
@@ -96,7 +99,7 @@ internal class Program
                 }
 
                 // Atribui o número de bombas adjacentes à célula atual
-                matriz[x, y] = bombasAdjacentes;
+                respostasMatiz[x, y] = bombasAdjacentes;
             }
         }
     }
